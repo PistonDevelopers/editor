@@ -1,0 +1,15 @@
+[package]
+name = "piston-editor"
+version = "0.1.0"
+authors = [
+    "bvssvni <bvssvni@gmail.com>"
+]
+keywords = ["editor", "interface", "piston"]
+description = "Editor interface"
+license = "MIT"
+repository = "https://github.com/PistonDevelopers/editor.git"
+homepage = "https://github.com/PistonDevelopers/editor"
+
+[lib]
+name = "editor"
+src = "./src/lib.rs"
