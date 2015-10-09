@@ -63,7 +63,7 @@ pub trait Editor {
     /// using swap-remove by replacing object with last one in same table.
     fn delete(&mut self, ty: Type, obj: Object) -> Result<Option<Object>, ()>;
     /// Updates an object with new values.
-    fn update(&mut self, ty: Type, args: &Any) -> Result<(), ()>;
+    fn update(&mut self, ty: Type, obj: Object, args: &Any) -> Result<(), ()>;
     /// Replaces an object with another.
     /// Keeps references pointing to the old object, but deletes
     /// references pointing from the old object.
