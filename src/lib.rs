@@ -105,10 +105,10 @@ pub trait Editor {
 /// The type of an object.
 /// This does not have be unique for Rust types.
 /// Dynamically typed objects should use same id.
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct Type(pub &'static str);
 /// The object id.
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct Object(pub usize);
 
 /// Stores information about a reference.
