@@ -137,3 +137,42 @@ pub struct Field {
     /// 0 for a normal named field, length for array.
     pub array: usize,
 }
+
+
+/// A helper function for `Editor::delete` implementation.
+pub fn delete<T>(items: &mut Vec<T>, obj: Object) -> Result<Option<Object>, ()> {
+    if items.len() == 0 { return Err(()); }
+
+    let upd_obj = if obj.0 == items.len() - 1 {
+        // The deleted object was last, no update needed.
+        None
+    } else {
+        // Update references to the last object,
+        // which now takes the place of the deleted object.
+        Some(Object(items.len() - 1))
+    };
+    items.swap_remove(obj.0);
+    Ok(upd_obj)
+}
+
+/// A helper function for `Editor::update` implementation.
+pub fn update<T: Any + Clone>(items: &mut Vec<T>, obj: Object, args: &Any)
+-> Result<(), ()> {
+    match args.downcast_ref::<T>() {
+        None => { return Err(()); }
+        Some(val) => {
+            items[obj.0] = val.clone();
+            Ok(())
+        }
+    }
+}
+
+/// A helper function for `Editor::all` implementation.
+pub fn all<T>(items: &Vec<T>) -> Vec<Object> {
+    (0..items.len()).map(|i| Object(i)).collect()
+}
+
+/// A helper function for `Editor::get` implementation.
+pub fn get<T: Any>(items: &Vec<T>, obj: Object) -> Result<&Any, ()> {
+    Ok(try!(items.get(obj.0).ok_or(())))
+}
