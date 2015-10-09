@@ -1,6 +1,6 @@
 [package]
 name = "piston-editor"
-version = "0.2.0"
+version = "0.2.1"
 authors = [
     "bvssvni <bvssvni@gmail.com>"
 ]
@@ -12,4 +12,4 @@ homepage = "https://github.com/PistonDevelopers/editor"
 
 [lib]
 name = "editor"
-src = "./src/lib.rs"
+path = "./src/lib.rs"
