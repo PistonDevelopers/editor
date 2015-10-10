@@ -1,6 +1,6 @@
 [package]
 name = "piston-editor"
-version = "0.2.3"
+version = "0.2.4"
 authors = [
     "bvssvni <bvssvni@gmail.com>"
 ]
