@@ -124,6 +124,8 @@ pub struct Reference {
     /// Whether to delete objects using this reference.
     /// When `false`, deletion will be cancelled with an error.
     pub cascade: bool,
+    /// The field that points to an object.
+    pub field: Field,
 }
 
 /// Field information.
