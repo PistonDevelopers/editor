@@ -75,6 +75,8 @@ pub trait Editor {
     fn references_to(&self, ty: Type, obj: Object) -> Vec<Reference>;
     /// Get references pointing from an object to other objects.
     fn references_from(&self, ty: Type, obj: Object) -> Vec<Reference>;
+    /// Delete a reference without deleting the object containing it.
+    fn delete_reference(&mut self, reference: Reference) -> Result<(), ()>;
     /// Get the visible objects of a type.
     fn visible(&self, ty: Type) -> Vec<Object>;
     /// Gets the selected object of a type.
@@ -112,6 +114,7 @@ pub struct Type(pub &'static str);
 pub struct Object(pub usize);
 
 /// Stores information about a reference.
+#[derive(Clone, Debug)]
 pub struct Reference {
     /// The type of the from object.
     pub from_ty: Type,
@@ -122,13 +125,18 @@ pub struct Reference {
     /// The id of the to object.
     pub to_obj: Object,
     /// Whether to delete objects using this reference.
-    /// When `false`, deletion will be cancelled with an error.
+    /// When `false`, deletion will be cancelled with an error,
+    /// unless the reference is optional.
     pub cascade: bool,
+    /// Whether to delete a reference without deleting the object itself.
+    /// If `cascade` is `true`, then the object will be deleted anyway.
+    pub optional: bool,
     /// The field that points to an object.
     pub field: Field,
 }
 
 /// Field information.
+#[derive(Clone, Debug)]
 pub struct Field {
     /// The name of field.
     pub name: Arc<String>,
@@ -139,7 +147,6 @@ pub struct Field {
     /// 0 for a normal named field, length for array.
     pub array: usize,
 }
-
 
 /// A helper function for `Editor::delete` implementation.
 pub fn delete<T>(items: &mut Vec<T>, obj: Object) -> Result<Option<Object>, ()> {
